@@ -1,0 +1,97 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+typedef struct node *Node;
+Node createbst(Node root,int key){
+    Node temp,cur,prev;
+    temp=(Node)malloc(sizeof(struct node));
+    temp->data=key;
+    temp->left=NULL;
+    temp->right=NULL;
+    if(root==NULL){
+        return temp;
+    }
+    cur=root;
+    prev=NULL;
+    while(cur!=NULL){
+        prev=cur;
+        if(key<cur->data){
+            cur=cur->left;
+        }
+        else{
+            cur=cur->right;
+        }
+    }
+    if(key<prev->data){
+        prev->left=temp;
+    }
+    else{
+        prev->right=temp;
+    }
+    return root;
+}
+
+void preorder(Node root){
+    if(root!=NULL){
+        printf("%d ",root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+void inorder(Node root){
+    if(root!=NULL){
+        inorder(root->left);
+        printf("%d ",root->data);
+        inorder(root->right);
+    }
+}
+
+void postorder(Node root){
+    if(root!=NULL){
+        postorder(root->left);
+        postorder(root->right);
+        printf("%d ",root->data);
+    }
+}
+
+int main(){
+    Node root=NULL;
+    int choice,key;
+    for(;;){
+        printf("\n1. Insert\n2. Preorder\n3. Inorder\n4. Postorder\n5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+                printf("Enter key to insert: ");
+                scanf("%d",&key);
+                root=createbst(root,key);
+                break;
+            case 2:
+                printf("Preorder traversal: ");
+                preorder(root);
+                printf("\n");
+                break;
+            case 3:
+                printf("Inorder traversal: ");
+                inorder(root);
+                printf("\n");
+                break;
+            case 4:
+                printf("Postorder traversal: ");
+                postorder(root);
+                printf("\n");
+                break;
+            case 5:
+                exit(0);
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+    return 0;
+}
